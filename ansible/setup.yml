@@ -1,0 +1,32 @@
+- name: Setup Dotfiles
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install dependencies (Fedora)
+      dnf:
+        name:
+          - stow
+          - git
+        state: present
+      become: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Install dependencies (macOS)
+      homebrew:
+        name:
+          - stow
+          - git
+        state: present
+      when: ansible_os_family == "Darwin"
+
+    - name: Stow configurations
+      shell: "stow -v -R -t ~ {{ item }}"
+      args:
+        chdir: "~/dotfiles"
+      loop:
+        - i3
+        - tmux
+        - vim
+        - nvim
+      register: stow_result
+      changed_when: "'LINK' in stow_result.stderr or 'UNLINK' in stow_result.stderr"
