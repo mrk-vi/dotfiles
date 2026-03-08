@@ -22,7 +22,7 @@
     - name: Stow configurations
       shell: "stow -v -R -t ~ {{ item }}"
       args:
-        chdir: "~/dotfiles"
+        chdir: "~/repos/dotfiles"
       loop:
         - i3
         - tmux
