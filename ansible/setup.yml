@@ -7,6 +7,10 @@
         name:
           - stow
           - git
+          - i3
+          - tmux
+          - vim
+          - neovim
         state: present
       become: yes
       when: ansible_os_family == "RedHat"
@@ -16,6 +20,9 @@
         name:
           - stow
           - git
+          - tmux
+          - vim
+          - neovim
         state: present
       when: ansible_os_family == "Darwin"
 

@@ -1,0 +1,40 @@
+- name: Cleanup Dotfiles
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Unstow configurations (remove symlinks)
+      shell: "stow -v -D -t ~ {{ item }}"
+      args:
+        chdir: "{{ lookup('env', 'HOME') }}/repos/dotfiles"
+      loop:
+        - i3
+        - tmux
+        - vim
+        - nvim
+      register: unstow_result
+      ignore_errors: yes
+      changed_when: "'UNLINK' in unstow_result.stderr"
+
+    - name: Remove applications and tools (Fedora)
+      dnf:
+        name:
+          - stow
+          - git
+          - i3
+          - tmux
+          - vim
+          - neovim
+        state: absent
+      become: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Remove applications and tools (macOS)
+      homebrew:
+        name:
+          - stow
+          - git
+          - tmux
+          - vim
+          - neovim
+        state: absent
+      when: ansible_os_family == "Darwin"
