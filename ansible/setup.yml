@@ -3,7 +3,7 @@
   connection: local
   tasks:
     - name: Install dependencies (Fedora)
-      dnf:
+      ansible.builtin.dnf:
         name:
           - stow
           - git
@@ -16,14 +16,7 @@
       when: ansible_os_family == "RedHat"
 
     - name: Install dependencies (macOS)
-      homebrew:
-        name:
-          - stow
-          - git
-          - tmux
-          - vim
-          - neovim
-        state: present
+      ansible.builtin.shell: "brew install stow git tmux vim neovim"
       when: ansible_os_family == "Darwin"
 
     - name: Stow configurations

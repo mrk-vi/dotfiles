@@ -64,7 +64,7 @@ if [ ! -d "$TARGET_DIR" ]; then
 else
     echo "🔄 Dotfiles directory already exists. Pulling latest changes..."
     cd "$TARGET_DIR"
-    git pull
+    git pull || echo "⚠️ Warning: git pull failed (likely no remote). Continuing with local files."
 fi
 
 # 3. Run Ansible playbook
