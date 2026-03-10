@@ -11,22 +11,70 @@
           - tmux
           - vim
           - neovim
+          - htop
+          - fzf
+          - ripgrep
+          - fd-find
+          - bat
         state: present
       become: yes
       when: ansible_os_family == "RedHat"
 
+    - name: Install dependencies (Debian/Ubuntu)
+      ansible.builtin.apt:
+        name:
+          - stow
+          - git
+          - i3
+          - tmux
+          - vim
+          - neovim
+          - htop
+          - fzf
+          - ripgrep
+          - fd-find
+          - bat
+        state: present
+      become: yes
+      when: ansible_os_family == "Debian"
+
     - name: Install dependencies (macOS)
-      ansible.builtin.shell: "brew install stow git tmux vim neovim"
+      community.general.homebrew:
+        name:
+          - stow
+          - git
+          - tmux
+          - vim
+          - neovim
+          - htop
+          - fzf
+          - ripgrep
+          - fd
+          - bat
+        state: present
       when: ansible_os_family == "Darwin"
 
-    - name: Stow configurations
+    - name: Stow common configurations
+      shell: "stow -v -R -t ~ {{ item }}"
+      args:
+        chdir: "~/repos/dotfiles"
+      loop:
+        - bash
+        - git
+        - htop
+        - nvim
+        - tmux
+        - vim
+        - zsh
+      register: stow_result
+      changed_when: "'LINK' in stow_result.stderr or 'UNLINK' in stow_result.stderr"
+
+    - name: Stow Linux-only configurations
       shell: "stow -v -R -t ~ {{ item }}"
       args:
         chdir: "~/repos/dotfiles"
       loop:
         - i3
-        - tmux
-        - vim
-        - nvim
-      register: stow_result
-      changed_when: "'LINK' in stow_result.stderr or 'UNLINK' in stow_result.stderr"
+      register: stow_linux_result
+      changed_when: "'LINK' in stow_linux_result.stderr or 'UNLINK' in stow_linux_result.stderr"
+      when: ansible_os_family != "Darwin"

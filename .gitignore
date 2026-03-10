@@ -1,3 +1,6 @@
 *.log
 .DS_Store
 ansible/inventory
+
+# Machine-specific local overrides (never commit these)
+*.local
