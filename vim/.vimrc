@@ -61,7 +61,7 @@ set scrolloff=0
 
 " My Keymaps
 "
-nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 " Set the leader key to space (common preference)
 let mapleader = " "
@@ -78,8 +78,16 @@ vnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>P "+P
 
-" Automatically set the compiler to maven when opening a Java file
-autocmd FileType java compiler ant  " Ant uses similar patterns, or see below
+" Navigate between splits with Ctrl+hjkl
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+
+" Column guide at 80 chars
+set colorcolumn=80
+highlight ColorColumn ctermbg=darkgray guibg=#2d2d2d
+
 
 " Source local overrides
 if filereadable(expand("~/.vimrc.local"))

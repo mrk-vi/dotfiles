@@ -4,3 +4,10 @@ ansible/inventory
 
 # Machine-specific local overrides (never commit these)
 *.local
+
+# Backup files
+*~
+*.bak/
+lazy-lock.json
+AGENT.md
+CLAUDE.md

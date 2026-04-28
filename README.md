@@ -1,41 +1,34 @@
-# My Dotfiles
+# Dotfiles
 
-Personal configurations for my development environment, automated with **Ansible** and **Stow**.
+Personal configs managed with **GNU Stow**.
 
-## Quick Setup (One-Liner)
+## Why Stow?
 
-Run this on any fresh Fedora, Debian/Ubuntu, or macOS machine to install all dependencies and apply configurations:
+Stow creates symlinks from this repo into `$HOME`, keeping config files in one place under version control.
+
+- **Clean** — no copy scripts, no installers
+- **Reversible** — `stow -D <package>` removes symlinks instantly
+- **Selective** — `stow nvim` deploys only Neovim, `stow git` only git, etc.
+- **Local overrides** — `.local` files (`.vimrc.local`, `.gitconfig.local`, etc.) are gitignored and stay machine-specific
+
+## Install Stow
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/mrk-vi/dotfiles/master/install.sh | bash
+# macOS
+brew install stow
+
+# Fedora
+sudo dnf install stow
+
+# Arch (Manjaro, etc.)
+sudo pacman -S stow
 ```
 
-## Features
-
-- **Automated Bootstrap:** Detects your OS and installs `git`, `ansible`, and `stow`.
-- **Infrastructure as Code:** Uses Ansible to install applications and stow configurations.
-- **Symlink Management:** GNU Stow manages configuration linking (clean and reversible).
-- **Local Overrides:** Machine-specific settings go in `.local` files (gitignored).
-
-## Applications Configured
-
-- **zsh / bash:** Shell configs with shared aliases and functions.
-- **Vim / Neovim:** Editor settings and plugins (kickstart.nvim).
-- **tmux:** Terminal multiplexer configuration with TPM.
-- **git:** Global gitconfig with nvim as merge/diff tool.
-- **i3:** Window manager setup (Linux-only).
-- **htop:** System monitor configuration.
-
-## How to Unstow
-
-To remove symlinks for a single package:
+## Usage
 
 ```bash
-stow -D -t ~ tmux
-```
-
-To unstow everything:
-
-```bash
-cd ~/repos/dotfiles && for d in bash git htop nvim tmux vim zsh; do stow -D -t ~ $d; done
+cd ~/dotfiles
+stow bash git nvim tmux vim zsh                  # deploy all
+stow -D nvim                                      # remove nvim symlinks
+stow --adopt nvim                                 # adopt existing files into the repo
 ```
