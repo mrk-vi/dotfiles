@@ -1,19 +1,12 @@
 local map = vim.keymap.set
 
--- Clear search highlight
-map("n", "<Esc><Esc>", ":<C-u>nohlsearch<CR>", { silent = true, desc = "Clear search highlight" })
-
--- Clipboard
-map({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
-map({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from clipboard" })
-map({ "n", "v" }, "<leader>P", '"+P', { desc = "Paste before" })
-
 -- Diagnostic navigation
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 
--- Telescope keymaps are defined in plugins/init.lua via lazy.nvim `keys`
+map("n", "<leader>fs", vim.lsp.buf.document_symbol,  { desc = "Document symbols" })
+map("n", "<leader>fS", vim.lsp.buf.workspace_symbol, { desc = "Workspace symbols" })
 
 -- LSP keymaps (applied per-buffer on LspAttach)
 vim.api.nvim_create_autocmd("LspAttach", {
