@@ -7,7 +7,7 @@ return {
     config = true,
   },
 
-  -- nvim-lspconfig: For non-Java LSP servers (e.g. lua_ls, bashls)
+  -- nvim-lspconfig: For non-Java LSP servers
   {
     "neovim/nvim-lspconfig",
   },
@@ -20,23 +20,54 @@ return {
       local jdtls = require("jdtls")
       local mason_pkg = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
 
-      local config = {
-        name = "jdtls",
-        cmd = {
-          mason_pkg .. "/bin/jdtls",
-          "--jvm-arg=-javaagent:" .. mason_pkg .. "/lombok.jar",
-        },
-        root_dir = jdtls.setup.find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
-        filetypes = { "java" },
-        settings = {
-          java = {},
-        },
-        init_options = {
-          bundles = {},
-        },
-      }
+      local function compute_root_dir(fname)
+        -- Search strong markers first (.git, mvnw, gradlew) to avoid stopping
+        -- at a submodule pom.xml (e.g. core/common/pom.xml instead of core/).
+        local root = jdtls.setup.find_root({ ".git", "mvnw", "gradlew" }, fname)
+        if root then return root end
+        -- Fallback: module-level markers
+        return jdtls.setup.find_root({ "pom.xml", "build.gradle" }, fname)
+      end
 
-      jdtls.start_or_attach(config)
+      local function make_config(fname)
+        return {
+          name = "jdtls",
+          cmd = {
+            mason_pkg .. "/bin/jdtls",
+            "--jvm-arg=-javaagent:" .. mason_pkg .. "/lombok.jar",
+          },
+          root_dir = compute_root_dir(fname),
+          filetypes = { "java" },
+          settings = {
+            java = {
+              configuration = {
+                updateBuildConfiguration = "automatic",
+              },
+              maven = {
+                downloadSources = true,
+              },
+              eclipse = {
+                downloadSources = true,
+              },
+            },
+          },
+          init_options = {
+            bundles = {},
+          },
+        }
+      end
+
+      -- Attach jdtls to the current Java buffer.
+      jdtls.start_or_attach(make_config(vim.api.nvim_buf_get_name(0)))
+
+      -- Attach jdtls to subsequent Java buffers (needed for nvimdiff with two files).
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "java",
+        callback = function(args)
+          local fname = vim.api.nvim_buf_get_name(args.buf)
+          jdtls.start_or_attach(make_config(fname))
+        end,
+      })
 
       local augroup = vim.api.nvim_create_augroup("JdtlsConfig", { clear = true })
       vim.api.nvim_create_autocmd("LspAttach", {
