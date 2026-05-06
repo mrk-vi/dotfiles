@@ -12,6 +12,20 @@ set scrolloff=0
 set backup
 set undofile
 
+" Centralize backup, swap, and undo files
+if !isdirectory(expand('~/.vim/backups'))
+    call mkdir(expand('~/.vim/backups'), 'p', 0700)
+endif
+if !isdirectory(expand('~/.vim/swap'))
+    call mkdir(expand('~/.vim/swap'), 'p', 0700)
+endif
+if !isdirectory(expand('~/.vim/undo'))
+    call mkdir(expand('~/.vim/undo'), 'p', 0700)
+endif
+set backupdir=~/.vim/backups//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
 " Set the leader key to space (common preference)
 let mapleader = " "
 let maplocalleader = " "
