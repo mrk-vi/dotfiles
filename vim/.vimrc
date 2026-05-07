@@ -1,3 +1,4 @@
+colorscheme blue
 syntax on
 filetype plugin indent on
 set showcmd
