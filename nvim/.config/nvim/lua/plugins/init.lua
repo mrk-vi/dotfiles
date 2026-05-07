@@ -19,6 +19,9 @@ return {
     config = function()
       local jdtls = require("jdtls")
       local mason_pkg = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
+      -- Store jdtls workspaces under a stable path keyed by project root,
+      -- not neovim's cwd (which changes per session).
+      local workspace_base = vim.fn.stdpath("cache") .. "/jdtls"
 
       local function compute_root_dir(fname)
         -- Search strong markers first (.git, mvnw, gradlew) to avoid stopping
@@ -30,13 +33,22 @@ return {
       end
 
       local function make_config(fname)
+        local root_dir = compute_root_dir(fname)
+        -- Hash the project root to get a stable, per-project workspace path.
+        local project_hash = vim.fn.sha256(root_dir):sub(1, 12)
+        local data_dir = workspace_base .. "/jdtls-" .. project_hash
         return {
           name = "jdtls",
           cmd = {
             mason_pkg .. "/bin/jdtls",
+            "-data", data_dir,
             "--jvm-arg=-javaagent:" .. mason_pkg .. "/lombok.jar",
+            -- Pass additional JVM args for JDK 21+ stability
+            "--jvm-arg=-Xmx2G",
+            "--jvm-arg=-XX:+UseG1GC",
+            "--jvm-arg=-XX:+UseStringDeduplication",
           },
-          root_dir = compute_root_dir(fname),
+          root_dir = root_dir,
           filetypes = { "java" },
           settings = {
             java = {
@@ -48,6 +60,22 @@ return {
               },
               eclipse = {
                 downloadSources = true,
+              },
+              -- Limit imported projects to avoid scanning the whole filesystem
+              import = {
+                gradle = {
+                  enabled = true,
+                },
+                maven = {
+                  enabled = true,
+                },
+                exclusions = {
+                  "**/node_modules/**",
+                  "**/.metadata/**",
+                  "**/build/**",
+                  "**/target/**",
+                  "**/.gradle/**",
+                },
               },
             },
           },
