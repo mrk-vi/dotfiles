@@ -78,5 +78,23 @@ fvr() {
   fi
 }
 
+# pi (coding agent)
+# Launches a Docker container for the current directory.
+# Set PI_COMPOSE_FILE to override the compose file path.
+: ${PI_COMPOSE_FILE:="$HOME/dotfiles/docker-compose.yml"}
+
+pi() {
+  if [[ ! -f "$PI_COMPOSE_FILE" ]]; then
+    echo "pi: compose file not found at $PI_COMPOSE_FILE" >&2
+    echo "Set PI_COMPOSE_FILE to the path of your docker-compose.yml" >&2
+    return 1
+  fi
+
+  local compose_dir
+  compose_dir=$(dirname "$PI_COMPOSE_FILE")
+
+  (cd "$compose_dir" && docker-compose run --rm -v "$PWD:/workspace" pi "$@")
+}
+
 # Source local functions (machine-specific)
 [ -f "$HOME/.bash_functions.local" ] && source "$HOME/.bash_functions.local"

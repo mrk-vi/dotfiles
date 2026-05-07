@@ -32,3 +32,4 @@ stow bash git nvim tmux vim zsh                  # deploy all
 stow -D nvim                                      # remove nvim symlinks
 stow --adopt nvim                                 # adopt existing files into the repo
 ```
+
