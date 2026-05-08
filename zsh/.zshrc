@@ -13,6 +13,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Which plugins would you like to load?
 plugins=(fzf git)
 
+# Keep k9s config XDG-compatible on macOS
+# Point directly at dotfiles to avoid stow symlink `mkdir` clash
+export K9S_CONFIG_DIR="$HOME/dotfiles/k9s/.config/k9s"
+
 # Load macOS-specific plugins
 if [[ "$OSTYPE" == "darwin"* ]]; then
   plugins+=(macos sdk)

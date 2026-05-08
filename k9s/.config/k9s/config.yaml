@@ -1,0 +1,7 @@
+# k9s configuration
+k9s:
+  # Use the blue skin
+  ui:
+    skin: blue
+  # Refresh rate in seconds
+  refreshRate: 5

@@ -1,0 +1,119 @@
+# k9s - Blue Ocean skin
+# Matches Vim's built-in blue colorscheme:
+#   bg=#000087 fg=#ffd700 green=#00ff00 magenta=#d787d7 orange=#ffa500
+k9s:
+  body:
+    fgColor: "#ffd700"
+    bgColor: "#000087"
+    logoColor: "#ffa500"
+    logoColorMsg: "#ffffff"
+    logoColorInfo: "#00ff00"
+    logoColorWarn: "#d787d7"
+    logoColorError: "#d70000"
+  prompt:
+    fgColor: "#ffffff"
+    bgColor: "#000087"
+    suggestColor: "#00ff00"
+    border:
+      command: "#00ff00"
+      default: "#00ff00"
+  help:
+    fgColor: "#bcbcbc"
+    bgColor: "#000087"
+    sectionColor: "#ffd700"
+    keyColor: "#00ff00"
+    numKeyColor: "#d787d7"
+  frame:
+    title:
+      fgColor: "#ffd700"
+      bgColor: "#000087"
+      highlightColor: "#d787d7"
+      counterColor: "#ffa500"
+      filterColor: "#00ff00"
+    border:
+      fgColor: "#005f00"
+      focusColor: "#00ff00"
+    menu:
+      fgColor: "#ffffff"
+      fgStyle: bold
+      keyColor: "#00ff00"
+      numKeyColor: "#d787d7"
+    crumbs:
+      fgColor: "#000087"
+      bgColor: "#00ff00"
+      activeColor: "#ffa500"
+    status:
+      newColor: "#00ff00"
+      modifyColor: "#ffd700"
+      addColor: "#00ff00"
+      pendingColor: "#ffa500"
+      errorColor: "#d70000"
+      highlightColor: "#00ff00"
+      killColor: "#d787d7"
+      completedColor: "#878787"
+  info:
+    sectionColor: "#ffffff"
+    fgColor: "#ffd700"
+    cpuColor: "#00ff00"
+    memColor: "#00ff00"
+    k9sRevColor: "#d787d7"
+  views:
+    table:
+      fgColor: "#ffd700"
+      bgColor: "#000087"
+      cursorFgColor: "#000087"
+      cursorBgColor: "#00ff00"
+      markColor: "#00ff00"
+      header:
+        fgColor: "#ffffff"
+        bgColor: "#005faf"
+        sorterColor: "#00ff00"
+        selectedSortColumnColor: "#ffd700"
+    xray:
+      fgColor: "#00ff00"
+      bgColor: "#000087"
+      cursorColor: "#00ff00"
+      cursorTextColor: "#000087"
+      graphicColor: "#005f00"
+    charts:
+      bgColor: "#000087"
+      dialBgColor: "#005faf"
+      chartBgColor: "#000087"
+      defaultDialColors:
+      - "#00ff00"
+      - "#d70000"
+      defaultChartColors:
+      - "#00ff00"
+      - "#ffd700"
+      resourceColors:
+        cpu:
+        - "#00ff00"
+        - "#005faf"
+        mem:
+        - "#ffd700"
+        - "#ffa500"
+    yaml:
+      keyColor: "#00ff00"
+      colonColor: "#ffffff"
+      valueColor: "#ffd700"
+    picker:
+      mainColor: "#ffffff"
+      focusColor: "#00ff00"
+      shortcutColor: "#00ff00"
+    logs:
+      fgColor: "#ffd700"
+      bgColor: "#000087"
+      indicator:
+        fgColor: "#00ff00"
+        bgColor: "#000087"
+        toggleOnColor: "#00ff00"
+        toggleOffColor: "#878787"
+  dialog:
+    fgColor: "#ffffff"
+    bgColor: "#005faf"
+    buttonFgColor: "#000087"
+    buttonBgColor: "#008700"
+    buttonFocusFgColor: "#000087"
+    buttonFocusBgColor: "#00ff00"
+    labelFgColor: "#bcbcbc"
+    fieldFgColor: "#ffffff"

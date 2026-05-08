@@ -1,3 +1,7 @@
+# Keep k9s config XDG-compatible on macOS
+# Point directly at dotfiles to avoid stow symlink `mkdir` clash
+export K9S_CONFIG_DIR="$HOME/dotfiles/k9s/.config/k9s"
+
 LSCOLORS="ExFxbxbxCxBxBxCxCxExEx"
 
 PS1='\u:\w \$ '
