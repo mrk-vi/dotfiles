@@ -15,7 +15,8 @@ RUN git config --global url."git@gitlab.com:".insteadOf "https://gitlab.com/"
 
 ENV GIT_TERMINAL_PROMPT=0
 
-RUN npm install -g @mariozechner/pi-coding-agent
+ARG CACHE_BUST=0
+RUN npm install -g @mariozechner/pi-coding-agent@latest
 
 WORKDIR /workspace
 ENTRYPOINT ["pi"]

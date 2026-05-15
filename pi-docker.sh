@@ -16,10 +16,23 @@ else
     DOTFILES_DIR="$(cd "$(dirname "$SCRIPT")" && pwd)"
 fi
 
-# Build image once (if not already built)
+# Build image if not present, or rebuild if older than 24h
+NEEDS_BUILD=false
 if ! docker image inspect "$IMAGE" &>/dev/null; then
+    NEEDS_BUILD=true
+else
+    CREATED=$(docker image inspect --format '{{.Created}}' "$IMAGE" 2>/dev/null)
+    if [ -n "$CREATED" ]; then
+        CREATED_TS=$(date -d "$CREATED" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S" "${CREATED%%.*}" +%s 2>/dev/null)
+        NOW=$(date +%s)
+        if [ $((NOW - CREATED_TS)) -gt 86400 ]; then
+            NEEDS_BUILD=true
+        fi
+    fi
+fi
+if $NEEDS_BUILD; then
     echo "Building pi-agent image..."
-    docker build -t "$IMAGE" "$DOTFILES_DIR"
+    docker build --build-arg CACHE_BUST="$(date +%s)" -t "$IMAGE" "$DOTFILES_DIR"
 fi
 
 exec docker run -it --rm \
