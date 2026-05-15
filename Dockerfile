@@ -17,8 +17,5 @@ ENV GIT_TERMINAL_PROMPT=0
 
 RUN npm install -g @mariozechner/pi-coding-agent
 
-COPY pi-entrypoint.sh /usr/local/bin/pi-entrypoint.sh
-RUN chmod +x /usr/local/bin/pi-entrypoint.sh
-
 WORKDIR /workspace
-ENTRYPOINT ["/usr/local/bin/pi-entrypoint.sh"]
+ENTRYPOINT ["pi"]
