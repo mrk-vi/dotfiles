@@ -17,3 +17,6 @@ k9s/.config/k9s/screen-dumps/
 lazy-lock.json
 AGENT.md
 CLAUDE.md
+
+# Antigravity CLI
+.antigravitycli/
