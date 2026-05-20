@@ -8,3 +8,7 @@ fi
 
 # Source local overrides
 [ -f "$HOME/.zprofile.local" ] && source "$HOME/.zprofile.local"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/mirko/.local/bin:$PATH"

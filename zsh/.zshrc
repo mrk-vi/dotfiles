@@ -41,3 +41,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Source local overrides (machine-specific paths, secrets, etc.)
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/mirko/.local/bin:$PATH"
